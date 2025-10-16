@@ -11,6 +11,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -28,8 +29,6 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.input.PasswordVisualTransformation
-import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -43,15 +42,16 @@ import kotlin.math.sin
 @Composable
 fun SuperSearchView(
     modifier: Modifier = Modifier,
+    value: String,
+    onValueChange: (String) -> Unit,
     hints: List<String>? = null,
     typingDelay: Long = 100L,
     sentenceDelay: Long = 1500L,
     writingChar: String = "",
 ) {
-    var text by remember { mutableStateOf("") }
     var displayedHint: String? by remember { mutableStateOf(null) }
 
-    if (hints?.isNotEmpty() == true && text.isEmpty()) {
+    if (hints?.isNotEmpty() == true && value.isEmpty()) {
 
         var hintIndex by remember { mutableIntStateOf(0) }
         val currentText = hints[hintIndex]
@@ -96,17 +96,34 @@ fun SuperSearchView(
         )
     )
 
+    // Shimmering effect
+    val offset by infiniteTransition.animateFloat(
+        initialValue = 0f,
+        targetValue = 1000f, // Depends on text and screen size
+        animationSpec = infiniteRepeatable(
+            animation = tween(2000, easing = LinearEasing),
+            repeatMode = RepeatMode.Restart
+        ),
+        label = "shimmer_offset"
+    )
+    val shimmerBrush = Brush.linearGradient(
+        colors = listOf(Color.White, Color.Gray, Color.White),
+        start = Offset(offset, 0f),
+        end = Offset(offset + 400f, 0f)
+    )
+
     OutlinedTextField(
         modifier = modifier.border(
             width = 4.dp,
             brush = animatedBrush,
             shape = RoundedCornerShape(50.dp)
         ),
-        value = text,
-        onValueChange = { it -> text = it},
+        value = value,
+        onValueChange = onValueChange,
         textStyle = TextStyle(
-            fontSize = 18.sp,
-            fontFamily = FontFamily.Monospace
+            fontSize = 14.sp,
+            fontFamily = FontFamily.Monospace,
+            brush = shimmerBrush
         ),
         placeholder = displayedHint?.let { h ->
             {
@@ -135,8 +152,13 @@ private fun SuperSearchView_Preview() {
             .fillMaxWidth()
             .height(200.dp)
     ) {
+        var text by remember { mutableStateOf("") }
         SuperSearchView(
-            modifier = Modifier.align(Alignment.Center),
+            modifier = Modifier
+                .align(Alignment.Center)
+                .width(300.dp),
+            value = text,
+            onValueChange = { it -> text = it},
             hints = listOf(
                 "https://wwww.google.com/education-valider",
                 "https://www.instagram.com/fr/reels/udd-subco",
