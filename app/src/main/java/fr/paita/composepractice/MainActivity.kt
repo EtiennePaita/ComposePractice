@@ -4,13 +4,16 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -33,9 +36,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import fr.paita.composepractice.components.AnimatedOpenableBox
+import fr.paita.composepractice.components.BoxShadow
+import fr.paita.composepractice.components.CustomAnimationSpec
 import fr.paita.composepractice.components.SuperSearchView
+import fr.paita.composepractice.ui.theme.Black
 import fr.paita.composepractice.ui.theme.ComposePracticeTheme
+import fr.paita.composepractice.ui.theme.LightGrey
 
 class MainActivity : ComponentActivity() {
     @OptIn(ExperimentalMaterial3Api::class)
@@ -92,6 +100,7 @@ fun MainContent(
 
     Column(
         modifier = Modifier
+            .background(Black)
             .fillMaxSize()
             .verticalScroll(scrollState)
             .padding(innerPadding)
@@ -99,6 +108,38 @@ fun MainContent(
 
         //.background(Color.Black)
     ) {
+
+        Row(
+            modifier = Modifier
+                .align(Alignment.CenterHorizontally)
+        ) {
+            BoxShadow(
+                modifier = Modifier
+                    .size(100.dp),
+            ) {
+                Text(
+                    "⭐️",
+                    color = LightGrey,
+                    fontSize = 45.sp
+                )
+            }
+
+            Spacer(Modifier.width(30.dp))
+            BoxShadow(
+                modifier = Modifier
+                    .size(100.dp),
+                animation = CustomAnimationSpec.Pulse
+            ) {
+                Text(
+                    "⭐️",
+                    color = LightGrey,
+                    fontSize = 45.sp
+                )
+            }
+
+        }
+
+        Spacer(modifier = Modifier.height(50.dp))
 
         SuperSearchView(
             modifier = Modifier

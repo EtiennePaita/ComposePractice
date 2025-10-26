@@ -12,6 +12,7 @@ val Pink40 = Color(0xFF7D5260)
 
 val PrimaryAppColor = Color(0xFF14A2FF)
 val Black = Color(0xFF161616)
+val Black05 = Color(0xFF181818)
 val VeryLightGrey = Color(0xFFF0F0F0)
 val LightGrey = Color(0xFFE4E4E4)
 val Grey = Color(0xFFB1B1B1)
