@@ -1,9 +1,10 @@
-package fr.paita.composepractice
+package fr.paita.composepractice.presentation
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.animation.core.VectorConverter
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -35,15 +36,17 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import fr.paita.composepractice.components.AnimatedOpenableBox
-import fr.paita.composepractice.components.BoxShadow
-import fr.paita.composepractice.components.CustomAnimationSpec
-import fr.paita.composepractice.components.SuperSearchView
+import fr.paita.composepractice.presentation.components.AnimatedOpenableBox
+import fr.paita.composepractice.presentation.components.BoxShadow
+import fr.paita.composepractice.presentation.components.SuperSearchView
+import fr.paita.composepractice.presentation.screens.playground.PlaygroundScreen
 import fr.paita.composepractice.ui.theme.Black
 import fr.paita.composepractice.ui.theme.ComposePracticeTheme
 import fr.paita.composepractice.ui.theme.LightGrey
+import fr.paita.composepractice.utils.AnimationTool
 
 class MainActivity : ComponentActivity() {
     @OptIn(ExperimentalMaterial3Api::class)
@@ -83,6 +86,7 @@ class MainActivity : ComponentActivity() {
                     }
                 ) { innerPadding ->
                     MainContent(innerPadding)
+                    //PlaygroundScreen(Modifier.padding(innerPadding))
                 }
             }
         }
@@ -109,6 +113,14 @@ fun MainContent(
         //.background(Color.Black)
     ) {
 
+        /*val pulseAnimation = AnimationTool.Pulse<Dp>(3000)
+        val boxSize by pulseAnimation.animateValue(
+            initialValue = 100.dp,
+            targetValue = 130.dp,
+            typeConverter = Dp.VectorConverter,
+            label = "BoxSizeAnimation"
+        )*/
+
         Row(
             modifier = Modifier
                 .align(Alignment.CenterHorizontally)
@@ -128,7 +140,7 @@ fun MainContent(
             BoxShadow(
                 modifier = Modifier
                     .size(100.dp),
-                animation = CustomAnimationSpec.Pulse
+                animation = AnimationTool.Pulse<Dp>()
             ) {
                 Text(
                     "⭐️",

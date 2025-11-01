@@ -1,4 +1,4 @@
-package fr.paita.composepractice.components
+package fr.paita.composepractice.presentation.components
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.expandVertically

@@ -1,4 +1,4 @@
-package fr.paita.composepractice.components
+package fr.paita.composepractice.presentation.components
 
 import android.util.Log
 import androidx.compose.animation.core.LinearEasing
