@@ -4,8 +4,9 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.animation.core.VectorConverter
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -20,6 +21,8 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Build
+import androidx.compose.material.icons.filled.Image
+import androidx.compose.material.icons.outlined.Image
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
@@ -41,11 +44,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import fr.paita.composepractice.presentation.components.AnimatedOpenableBox
 import fr.paita.composepractice.presentation.components.BoxShadow
+import fr.paita.composepractice.presentation.components.CompareSlider
 import fr.paita.composepractice.presentation.components.SuperSearchView
-import fr.paita.composepractice.presentation.screens.playground.PlaygroundScreen
 import fr.paita.composepractice.ui.theme.Black
 import fr.paita.composepractice.ui.theme.ComposePracticeTheme
 import fr.paita.composepractice.ui.theme.LightGrey
+import fr.paita.composepractice.ui.theme.Orange
+import fr.paita.composepractice.ui.theme.RedError
 import fr.paita.composepractice.utils.AnimationTool
 
 class MainActivity : ComponentActivity() {
@@ -108,9 +113,7 @@ fun MainContent(
             .fillMaxSize()
             .verticalScroll(scrollState)
             .padding(innerPadding)
-            .padding(horizontal = 20.dp, vertical = 20.dp)
-
-        //.background(Color.Black)
+            .padding(horizontal = 20.dp, vertical = 0.dp)
     ) {
 
         /*val pulseAnimation = AnimationTool.Pulse<Dp>(3000)
@@ -120,6 +123,27 @@ fun MainContent(
             typeConverter = Dp.VectorConverter,
             label = "BoxSizeAnimation"
         )*/
+
+        CompareSlider(
+            modifier = Modifier.size(300.dp),
+            initialContent = { modifier ->
+                Box(modifier.background(RedError))
+                Image(
+                    Icons.Default.Image,
+                    contentDescription = "Default image",
+                    modifier = modifier
+                )
+            },
+            compareContent = { modifier ->
+                Box(modifier.background(Orange))
+                Image(
+                    Icons.Outlined.Image,
+                    contentDescription = "Default image",
+                    modifier = modifier,
+                )
+
+            }
+        )
 
         Row(
             modifier = Modifier
