@@ -17,6 +17,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -39,12 +41,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import fr.paita.composepractice.presentation.components.AnimatedOpenableBox
 import fr.paita.composepractice.presentation.components.BoxShadow
 import fr.paita.composepractice.presentation.components.CompareSlider
+import fr.paita.composepractice.presentation.components.IntegratedCompareSlider
 import fr.paita.composepractice.presentation.components.SuperSearchView
 import fr.paita.composepractice.ui.theme.Black
 import fr.paita.composepractice.ui.theme.ComposePracticeTheme
@@ -70,9 +72,7 @@ class MainActivity : ComponentActivity() {
                         )
                     },
                     bottomBar = {
-                        BottomAppBar(
-
-                        ) {
+                        BottomAppBar {
                             Text(
                                 modifier = Modifier
                                     .fillMaxWidth(),
@@ -106,6 +106,7 @@ fun MainContent(
 ) {
     val scrollState = rememberScrollState()
     var text by remember { mutableStateOf("") }
+    val pagerState = rememberPagerState { 2 }
 
     Column(
         modifier = Modifier
@@ -124,26 +125,55 @@ fun MainContent(
             label = "BoxSizeAnimation"
         )*/
 
-        CompareSlider(
-            modifier = Modifier.size(300.dp),
-            initialContent = { modifier ->
-                Box(modifier.background(RedError))
-                Image(
-                    Icons.Default.Image,
-                    contentDescription = "Default image",
-                    modifier = modifier
-                )
-            },
-            compareContent = { modifier ->
-                Box(modifier.background(Orange))
-                Image(
-                    Icons.Outlined.Image,
-                    contentDescription = "Default image",
-                    modifier = modifier,
-                )
 
+        HorizontalPager(
+            state = pagerState,
+            modifier = Modifier.fillMaxWidth(),
+        ) { page ->
+
+            when (page) {
+                0 -> CompareSlider(
+                    modifier = Modifier.size(300.dp),
+                    initialContent = { modifier ->
+                        Box(modifier.background(RedError))
+                        Image(
+                            Icons.Default.Image,
+                            contentDescription = "Default image",
+                            modifier = modifier
+                        )
+                    },
+                    compareContent = { modifier ->
+                        Box(modifier.background(Orange))
+                        Image(
+                            Icons.Outlined.Image,
+                            contentDescription = "Default image",
+                            modifier = modifier,
+                        )
+
+                    }
+                )
+                1 -> IntegratedCompareSlider(
+                    modifier = Modifier.size(300.dp),
+                    initialContent = { modifier ->
+                        Box(modifier.background(RedError))
+                        Image(
+                            Icons.Default.Image,
+                            contentDescription = "Default image",
+                            modifier = modifier
+                        )
+                    },
+                    compareContent = { modifier ->
+                        Box(modifier.background(Orange))
+                        Image(
+                            Icons.Outlined.Image,
+                            contentDescription = "Default image",
+                            modifier = modifier,
+                        )
+
+                    }
+                )
             }
-        )
+        }
 
         Row(
             modifier = Modifier
@@ -164,7 +194,7 @@ fun MainContent(
             BoxShadow(
                 modifier = Modifier
                     .size(100.dp),
-                animation = AnimationTool.Pulse<Dp>()
+                animation = AnimationTool.Pulse()
             ) {
                 Text(
                     "⭐️",
@@ -189,7 +219,7 @@ fun MainContent(
             ),
             typingDelay = 50L,
             value = text,
-            onValueChange = { it -> text = it},
+            onValueChange = { text = it},
         )
 
         Spacer(modifier = Modifier.height(20.dp))
