@@ -12,6 +12,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -33,6 +35,7 @@ import androidx.compose.ui.unit.sp
 import fr.paita.composepractice.presentation.components.AnimatedOpenableBox
 import fr.paita.composepractice.presentation.components.BoxShadow
 import fr.paita.composepractice.presentation.components.CompareSlider
+import fr.paita.composepractice.presentation.components.IntegratedCompareSlider
 import fr.paita.composepractice.presentation.components.SuperSearchView
 import fr.paita.composepractice.ui.theme.Black
 import fr.paita.composepractice.ui.theme.ComposePracticeTheme
@@ -47,6 +50,7 @@ import fr.paita.composepractice.utils.AnimationTool
 fun HomeScreen() {
     val scrollState = rememberScrollState()
     var text by remember { mutableStateOf("") }
+    val pagerState = rememberPagerState { 2 }
 
     Column(
         modifier = Modifier
@@ -56,34 +60,55 @@ fun HomeScreen() {
             .padding(horizontal = 20.dp, vertical = 0.dp)
     ) {
 
-        /*val pulseAnimation = AnimationTool.Pulse<Dp>(3000)
-        val boxSize by pulseAnimation.animateValue(
-            initialValue = 100.dp,
-            targetValue = 130.dp,
-            typeConverter = Dp.VectorConverter,
-            label = "BoxSizeAnimation"
-        )*/
 
-        CompareSlider(
-            modifier = Modifier.size(300.dp),
-            initialContent = { modifier ->
-                Box(modifier.background(RedError))
-                Image(
-                    Icons.Default.Image,
-                    contentDescription = "Default image",
-                    modifier = modifier
-                )
-            },
-            compareContent = { modifier ->
-                Box(modifier.background(Orange))
-                Image(
-                    Icons.Outlined.Image,
-                    contentDescription = "Default image",
-                    modifier = modifier,
-                )
+        HorizontalPager(
+            state = pagerState,
+            modifier = Modifier.fillMaxWidth(),
+        ) { page ->
 
+            when (page) {
+                0 -> CompareSlider(
+                    modifier = Modifier.size(300.dp),
+                    initialContent = { modifier ->
+                        Box(modifier.background(RedError))
+                        Image(
+                            Icons.Default.Image,
+                            contentDescription = "Default image",
+                            modifier = modifier
+                        )
+                    },
+                    compareContent = { modifier ->
+                        Box(modifier.background(Orange))
+                        Image(
+                            Icons.Outlined.Image,
+                            contentDescription = "Default image",
+                            modifier = modifier,
+                        )
+
+                    }
+                )
+                1 -> IntegratedCompareSlider(
+                    modifier = Modifier.size(300.dp),
+                    initialContent = { modifier ->
+                        Box(modifier.background(RedError))
+                        Image(
+                            Icons.Default.Image,
+                            contentDescription = "Default image",
+                            modifier = modifier
+                        )
+                    },
+                    compareContent = { modifier ->
+                        Box(modifier.background(Orange))
+                        Image(
+                            Icons.Outlined.Image,
+                            contentDescription = "Default image",
+                            modifier = modifier,
+                        )
+
+                    }
+                )
             }
-        )
+        }
 
         Row(
             modifier = Modifier
